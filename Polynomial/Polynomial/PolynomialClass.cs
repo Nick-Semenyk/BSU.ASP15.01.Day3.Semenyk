@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,24 @@ namespace Polynomial
 {
     public class PolynomialClass
     {
-        private PolynomItem[] _polynomial;
+        private readonly PolynomItem[] _polynomial;
+
+        /// <summary>
+        /// Returns coefficient of item of specified degree. 
+        /// </summary>
+        /// <param name="degree">Degree of item</param>
+        /// <returns>Coefficient of item of specified degree</returns>
+        public double CoefficientNearDegree(int degree)
+        {
+            foreach(PolynomItem item in _polynomial)
+            {
+                if (item.degree == degree)
+                {
+                    return item.coefficient;
+                }
+            }
+            return 0;
+        }
 
         /// <summary>
         /// Create polynomial with single item.
@@ -26,51 +44,11 @@ namespace Polynomial
             _polynomial = new PolynomItem[1];
             if (Math.Abs(coefficient)<eps)
             {
-                _polynomial[0].coefficient = 0;
-                _polynomial[0].degree = 0;
+                _polynomial[0] = new PolynomItem();
             }
             else
             {
-                _polynomial[0].coefficient = coefficient;
-                _polynomial[0].degree = degree;
-            }
-        }
-
-        /// <summary>
-        /// Create polynomial with two items
-        /// </summary>
-        /// <param name="firstCoefficient">Coefficient near first degree</param>
-        /// <param name="firstDegree">Degree of first item</param>
-        /// <param name="secondCoefficient">Coefficient near second degree</param>
-        /// <param name="secondDegree">Degree of second item</param>
-        /// <param name="eps">Coefficients which absolute value less than eps will be ignored.</param>
-        public PolynomialClass(double firstCoefficient, int firstDegree,
-            double secondCoefficient, int secondDegree, double eps = 1E-6)
-        {
-            if (firstDegree < 0 || secondDegree < 0)
-            {
-                throw new ArgumentException();
-            }
-            _polynomial = new PolynomItem[2];
-            if (Math.Abs(firstCoefficient) < eps)
-            {
-                _polynomial[0].coefficient = 0;
-                _polynomial[0].degree = 0;
-            }
-            else
-            {
-                _polynomial[0].coefficient = firstCoefficient;
-                _polynomial[0].degree = firstDegree;
-            }
-            if (Math.Abs(secondCoefficient) < eps)
-            {
-                _polynomial[1].coefficient = 0;
-                _polynomial[1].degree = 0;
-            }
-            else
-            {
-                _polynomial[1].coefficient = secondCoefficient;
-                _polynomial[1].degree = secondDegree;
+                _polynomial[0] = new PolynomItem(degree, coefficient);
             }
         }
 
@@ -103,11 +81,55 @@ namespace Polynomial
             Array.Resize(ref _polynomial, arrayIndex);
         }
 
-        //!
+        /// <summary>
+        /// Create polynomial with single item.
+        /// </summary>
+        /// <param name="item">PolynomItem variable with degree and coefficient</param>
+        /// <param name="eps">Coefficients which absolute value less than eps will be ignored.</param>
+        public PolynomialClass(PolynomItem item, double eps = 1E-6)
+        {
+            if (item.degree < 0)
+            {
+                throw new ArgumentException();
+            }
+            _polynomial = new PolynomItem[1];
+            if (Math.Abs(item.coefficient) < eps)
+            {
+                _polynomial[0] = new PolynomItem();
+            }
+            else
+            {
+                _polynomial[0] = item;
+            }
+        }
+
+        private PolynomialClass(double eps = 1E-6, params PolynomItem[] items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (items.Count() == 0)
+            {
+                throw new ArgumentNullException();
+            }
+            _polynomial = new PolynomItem[items.Count()];
+            int index = 0;
+            for (int i = 0; i<items.Count(); i++)
+            {
+                if (Math.Abs(items[i].coefficient) > eps)
+                {
+                    _polynomial[index] = items[i];
+                    index++;
+                }
+            }
+            Array.Resize(ref _polynomial, index);
+        }
+
         /// <summary>
         /// Calculate polynomial with defined parameter
         /// </summary>
-        /// <param name="variable"></param>
+        /// <param name="variable">Indeterminate or variable of polynomial</param>
         /// <returns>Result of calculation</returns>
         public double Calculate(double variable)
         {
@@ -119,7 +141,115 @@ namespace Polynomial
             return result;
         }
 
-        //!
+        public static PolynomialClass operator +(PolynomialClass first, PolynomialClass second)
+        {
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+            PolynomItem[] resultArray = new PolynomItem[first._polynomial.Count() + second._polynomial.Count()];
+            int firstIndex, secondIndex, maxDegree;
+            firstIndex = 0;
+            secondIndex = 0;
+            maxDegree = Math.Max(first._polynomial.Last().degree, 
+                second._polynomial.Last().degree);
+            int resultIndex = 0;
+            int currentFirstDegree = 0, currentSecondDegree = 0;
+            for (int i = 0; i <= maxDegree; i++)
+            {
+                if (firstIndex < first._polynomial.Count())
+                    currentFirstDegree = first._polynomial[firstIndex].degree;
+                else
+                    //first polynomial is calculated
+                    currentFirstDegree = -1;
+                if (secondIndex < second._polynomial.Count())
+                    currentSecondDegree = second._polynomial[secondIndex].degree;
+                else
+                    //second polynomial is calculated
+                    currentSecondDegree = -2;
+                if (currentFirstDegree == currentSecondDegree)
+                {
+                    resultArray[resultIndex] = new PolynomItem(currentFirstDegree,
+                        first._polynomial[firstIndex].coefficient +
+                        second._polynomial[secondIndex].coefficient);
+                    resultIndex++;
+                    firstIndex++;
+                    secondIndex++;
+                    continue;
+                }
+                if (currentFirstDegree == i)
+                {
+                    resultArray[resultIndex] = first._polynomial[firstIndex];
+                    resultIndex++;
+                    firstIndex++;
+                    continue;
+                }
+                if (currentSecondDegree == i)
+                {
+                    resultArray[resultIndex] = second._polynomial[secondIndex];
+                    resultIndex++;
+                    secondIndex++;
+                }
+            }
+            return new PolynomialClass(1E-6, resultArray);
+        }
+
+        public static PolynomialClass operator -(PolynomialClass first, PolynomialClass second)
+        {
+            if (first == null || second == null)
+            {
+                throw new ArgumentNullException();
+            }
+            PolynomItem[] resultArray = new PolynomItem[first._polynomial.Count() + second._polynomial.Count()];
+            int firstIndex, secondIndex, maxDegree;
+            firstIndex = 0;
+            secondIndex = 0;
+            maxDegree = Math.Max(first._polynomial.Last().degree,
+                second._polynomial.Last().degree);
+            int resultIndex = 0;
+            int currentFirstDegree = 0, currentSecondDegree = 0;
+            for (int i = 0; i <= maxDegree; i++)
+            {
+                if (firstIndex < first._polynomial.Count())
+                    currentFirstDegree = first._polynomial[firstIndex].degree;
+                else
+                    //first polynomial is calculated
+                    currentFirstDegree = -1;
+                if (secondIndex < second._polynomial.Count())
+                    currentSecondDegree = second._polynomial[secondIndex].degree;
+                else
+                    //second polynomial is calculated
+                    currentSecondDegree = -2;
+                if (currentFirstDegree == currentSecondDegree)
+                {
+                    resultArray[resultIndex] = new PolynomItem(currentFirstDegree,
+                        first._polynomial[firstIndex].coefficient -
+                        second._polynomial[secondIndex].coefficient);
+                    resultIndex++;
+                    firstIndex++;
+                    secondIndex++;
+                    continue;
+                }
+                if (currentFirstDegree == i)
+                {
+                    resultArray[resultIndex] = first._polynomial[firstIndex];
+                    resultIndex++;
+                    firstIndex++;
+                    continue;
+                }
+                if (currentSecondDegree == i)
+                {
+                    resultArray[resultIndex] = new PolynomItem(i,
+                        - second._polynomial[secondIndex].coefficient);
+                    resultIndex++;
+                    secondIndex++;
+                }
+            }
+            return new PolynomialClass(1E-6, resultArray);
+        }
+
+
+
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -130,14 +260,48 @@ namespace Polynomial
             {
                 return false;
             }
+            PolynomialClass comparPolynom = (PolynomialClass) obj;
+            foreach(PolynomItem item in _polynomial)
+            {
+                if (Math.Abs(comparPolynom.CoefficientNearDegree(item.degree) - item.coefficient) > 1E-6)
+                {
+                    return false;
+                }
+            }
             return true;
+        }
+
+        public bool Equals(PolynomialClass polynomial)
+        {
+            if (polynomial == null)
+            {
+                return false;
+            }
+            foreach (PolynomItem item in _polynomial)
+            {
+                if (Math.Abs(polynomial.CoefficientNearDegree(item.degree) - item.coefficient) > 1E-6)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int result = 0;
+            foreach (PolynomItem item in _polynomial)
+            {
+                result += item.GetHashCode()*(result ^ _polynomial.Count());
+            }
+            return result;
         }
     }
 
     public struct PolynomItem
     {
-        public double coefficient;
-        public int degree;
+        public readonly double coefficient;
+        public readonly int degree;
 
         public PolynomItem(int degree, double coefficient)
         {
@@ -171,6 +335,15 @@ namespace Polynomial
                 return true;
             }
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int truncatedCoefficient = (int)Math.Floor(coefficient);
+            double fractionalPart = coefficient - truncatedCoefficient;
+            int result = truncatedCoefficient * degree + 11;
+            result = result + (int)(fractionalPart*(truncatedCoefficient + degree + result));
+            return result;
         }
     }
 }
