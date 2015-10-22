@@ -2,4 +2,3 @@ E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial\bin\Debug\Polynomial.dl
 E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial\bin\Debug\Polynomial.pdb
 E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial\obj\Debug\Polynomial.dll
 E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial\obj\Debug\Polynomial.pdb
-E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial\obj\Debug\Polynomial.csprojResolveAssemblyReference.cache

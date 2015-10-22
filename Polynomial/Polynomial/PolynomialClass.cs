@@ -384,7 +384,7 @@ namespace Polynomial
         public override int GetHashCode()
         {
             int truncatedCoefficient = (int)Math.Floor(Coefficient);
-            int fractionalPart = (int)((Coefficient - truncatedCoefficient)*1E+5);
+            int fractionalPart = (int)((Coefficient - truncatedCoefficient)*1E+6);
             int result = truncatedCoefficient * Degree + 11;
             result = result + (fractionalPart^(truncatedCoefficient + Degree + result));
             return result;

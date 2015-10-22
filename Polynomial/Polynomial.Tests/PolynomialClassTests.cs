@@ -85,34 +85,29 @@ namespace Polynomial.Tests
             PolynomialClass sum = new PolynomialClass(sumArray, eps);
             Assert.AreEqual(sum, firstSummand - secondSummand);
         }
-        
-    //    [TestCase(new double[] { 3, 2, -78, 0, 5 }, new double[] { 0, 0, 9, -21 }, 1E-6)]
-    //    [TestCase(new double[] { 0, -1 }, new double[] { 10, 1, 999 }, 1E-6)]
-    //    [TestCase(new double[] { 0.5, -78.991, 0, -0.41 }, new double[] { -43.8, 21.21, 99.1 }, 1E-6)]
-    //    [TestCase(new double[] { 0.5, -78.991, 0, -0.41 }, new double[] { -0.5, 78, -99.1 }, 1)]
-    //    public void OperatorMultyplyTests(double[] firstCoefficients, double[] secondCoefficients, double eps)
-    //    {
-    //        PolynomialClass firstSummand = new PolynomialClass(firstCoefficients, eps);
-    //        PolynomialClass secondSummand = new PolynomialClass(secondCoefficients, eps);
-    //        double[] sumArray = new double[Math.Max(firstCoefficients.Count(), secondCoefficients.Count())];
 
-    //        for (int i = 0; i < sumArray.Count(); i++)
-    //        {
-    //            if (i < firstCoefficients.Count() && i < secondCoefficients.Count())
-    //            {
-    //                sumArray[i] = firstCoefficients[i] - secondCoefficients[i];
-    //            }
-    //            if (i > firstCoefficients.Count())
-    //            {
-    //                sumArray[i] = secondCoefficients[i];
-    //            }
-    //            if (i > secondCoefficients.Count())
-    //            {
-    //                sumArray[i] = firstCoefficients[i];
-    //            }
-    //        }
-    //        PolynomialClass sum = new PolynomialClass(sumArray, eps);
-    //        Assert.AreEqual(sum, firstSummand - secondSummand);
-    //    }
-    //}
+        [TestCase(new double[] { 3, 2, -78, 0, 5 }, new double[] { 0, 0, 9, -21 }, 1E-6)]
+        [TestCase(new double[] { 0, -1 }, new double[] { 10, 1, 999 }, 1E-6)]
+        [TestCase(new double[] { 0.5, -78.991, 0, -0.41 }, new double[] { -43.8, 21.21, 99.1 }, 1E-6)]
+        [TestCase(new double[] { 0.5, -78.991, 0, -0.41 }, new double[] { -0.5, 78, -99.1 }, 1)]
+        public void OperatorMultiplyTests(double[] firstCoefficients, double[] secondCoefficients, double eps)
+        {
+            PolynomialClass firstMultiplier = new PolynomialClass(firstCoefficients, eps);
+            PolynomialClass secondMultiplier = new PolynomialClass(secondCoefficients, eps);
+            double[] mulArray = new double[firstCoefficients.Count() * secondCoefficients.Count()];
+            for (int i = 0; i < firstCoefficients.Count(); i++)
+            {
+                if (Math.Abs(firstCoefficients[i]) > eps)
+                for (int j = 0; j<secondCoefficients.Count(); j++)
+                {
+                    if (Math.Abs(secondCoefficients[j]) > eps)
+                    {
+                        mulArray[i + j] += firstCoefficients[i]*secondCoefficients[j];
+                    }
+                }
+            }
+            PolynomialClass mul = new PolynomialClass(mulArray, eps);
+            Assert.AreEqual(mul, firstMultiplier * secondMultiplier);
+        }
+    }
 }
