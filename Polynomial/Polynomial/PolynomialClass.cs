@@ -59,7 +59,7 @@ namespace Polynomial
         /// </summary>
         /// <param name="eps">Coefficients which absolute value less than eps will be ignored.</param>
         /// <param name="coefficients">Coefficients near item with degree, equals number of parameter, starting from 0</param>
-        public PolynomialClass(double eps = 1E-6, params double[] coefficients)
+        public PolynomialClass(double[] coefficients, double eps = 1E-6)
         {
             if (coefficients == null)
             {
@@ -111,7 +111,7 @@ namespace Polynomial
             }
         }
 
-        private PolynomialClass(double eps = 1E-6, params PolynomItem[] items)
+        private PolynomialClass(PolynomItem[] items, double eps = 1E-6)
         {
             if (items == null)
             {
@@ -164,7 +164,7 @@ namespace Polynomial
             }
             if (first._polynomial.Count() == 0)
             {
-                return new PolynomialClass(1E-6, second._polynomial);
+                return new PolynomialClass(second._polynomial, 1E-6);
             }
             if (second._polynomial.Count() == 0)
             {
@@ -214,7 +214,7 @@ namespace Polynomial
                     secondIndex++;
                 }
             }
-            return new PolynomialClass(1E-6, resultArray);
+            return new PolynomialClass(resultArray, 1E-6);
         }
 
         public static PolynomialClass operator -(PolynomialClass first, PolynomialClass second)
@@ -268,7 +268,7 @@ namespace Polynomial
                     secondIndex++;
                 }
             }
-            return new PolynomialClass(1E-6, resultArray);
+            return new PolynomialClass(resultArray, 1E-6);
         }
 
         public static PolynomialClass operator *(PolynomialClass first, PolynomialClass second)
@@ -289,7 +289,7 @@ namespace Polynomial
                         itemFirst.Coefficient * itemSecond.Coefficient);
                     resultIndex++;
                 }
-                result = result + new PolynomialClass(1E-6, resultArray);
+                result = result + new PolynomialClass(resultArray, 1E-6);
             }
             return result;
         }
@@ -384,9 +384,9 @@ namespace Polynomial
         public override int GetHashCode()
         {
             int truncatedCoefficient = (int)Math.Floor(Coefficient);
-            double fractionalPart = Coefficient - truncatedCoefficient;
+            int fractionalPart = (int)((Coefficient - truncatedCoefficient)*1E+5);
             int result = truncatedCoefficient * Degree + 11;
-            result = result + (int)(fractionalPart*(truncatedCoefficient + Degree + result));
+            result = result + (fractionalPart^(truncatedCoefficient + Degree + result));
             return result;
         }
     }
