@@ -1,0 +1,8 @@
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\bin\Debug\PolynomialConsole.exe.config
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\bin\Debug\PolynomialConsole.exe
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\bin\Debug\PolynomialConsole.pdb
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\bin\Debug\Polynomial.dll
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\bin\Debug\Polynomial.pdb
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\obj\Debug\PolynomialConsole.csprojResolveAssemblyReference.cache
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\obj\Debug\PolynomialConsole.exe
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\PolynomialConsole\obj\Debug\PolynomialConsole.pdb

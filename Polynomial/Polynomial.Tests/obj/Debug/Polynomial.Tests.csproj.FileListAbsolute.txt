@@ -1,0 +1,9 @@
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\bin\Debug\Polynomial.Tests.dll
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\bin\Debug\Polynomial.Tests.pdb
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\bin\Debug\nunit.framework.dll
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\bin\Debug\Polynomial.dll
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\bin\Debug\nunit.framework.xml
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\bin\Debug\Polynomial.pdb
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\obj\Debug\Polynomial.Tests.csprojResolveAssemblyReference.cache
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\obj\Debug\Polynomial.Tests.dll
+E:\REPOS\BSU.ASP15.01.Day3.Semenyk\Polynomial\Polynomial.Tests\obj\Debug\Polynomial.Tests.pdb
