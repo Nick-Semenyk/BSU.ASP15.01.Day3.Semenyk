@@ -48,6 +48,37 @@ namespace PolynomialConsole
             {
                 Console.WriteLine(p6.Calculate(i));//0
             }
+            //GetHash for a+bx, a,b = [-100;100], step 0.05
+            List<int> hashes = new List<int>();
+            double[] coefficients;
+            //for(double coefficientDegree0 = -100; coefficientDegree0 < 100; coefficientDegree0 += 0.05)
+            //{
+            //    for (double coefficientDegree1 = -100; coefficientDegree1 < 100; coefficientDegree1 += 0.05)
+            //    {
+            //        coefficients = new double[] {coefficientDegree0, coefficientDegree1};
+            //        hashes.Add(new PolynomialClass(coefficients).GetHashCode());
+            //    }
+            //}
+            //Console.WriteLine(hashes.Count() - hashes.Distinct().Count());
+            
+            Random random = new Random();
+            for (int i = 0; i<10000000; i++)
+            {
+                coefficients = new double[random.Next(10) + 1];
+                for (int j = 0; j < coefficients.Count(); j++)
+                {
+                    coefficients[j] = random.Next(20000) - 10000 + random.NextDouble();
+                }
+                hashes.Add(new PolynomialClass(coefficients).GetHashCode());
+            }
+            Console.WriteLine(hashes.Count() - hashes.Distinct().Count());
+            //Console.WriteLine(p1.GetHashCode());
+            //Console.WriteLine(p2.GetHashCode());
+            //Console.WriteLine(p3.GetHashCode());
+            //Console.WriteLine(p4.GetHashCode());
+            //Console.WriteLine(p5.GetHashCode());
+            //Console.WriteLine(p6.GetHashCode());
+            //Console.WriteLine(p7.GetHashCode());
             Console.WriteLine();
             Console.ReadLine();
         }

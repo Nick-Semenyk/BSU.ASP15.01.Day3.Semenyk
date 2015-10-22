@@ -109,5 +109,17 @@ namespace Polynomial.Tests
             PolynomialClass mul = new PolynomialClass(mulArray, eps);
             Assert.AreEqual(mul, firstMultiplier * secondMultiplier);
         }
+
+        [TestCase(new double[] { 93, -222, 0, 0, 897 }, new double[] { 93, -222, 0, 0, 897 }, 1E-6)]
+        [TestCase(new double[] { 0, -1 }, new double[] { 0, -1 }, 1E-6)]
+        [TestCase(new double[] { 11.123456789, -908, 56.7 }, new double[] { 11.123456701, -908.00000001, 56.7 }, 1E-6)]
+        [TestCase(new double[] { 0.5, -78.991, -99, -0.41 }, new double[] { 0.5, -78.991, -99, 0 }, 1)]
+        public void GetHashCodeTests(double[] firstCoefficients, double[] secondCoefficients, double eps)
+        {
+            PolynomialClass firstPolynomial = new PolynomialClass(firstCoefficients, eps);
+            PolynomialClass secondPolynomial = new PolynomialClass(secondCoefficients, eps);
+            Assert.AreEqual(firstPolynomial.GetHashCode(), secondPolynomial.GetHashCode());
+            Assert.AreEqual(firstPolynomial, secondPolynomial);
+        }
     }
 }
